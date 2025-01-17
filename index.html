@@ -93,22 +93,17 @@
         </button>
 
         <script>
-            function formatDate(date) {
-                return date.replace(/-|:|\.\d+/g, '');
-            }
-
             function addToCalendar() {
-                const title = encodeURIComponent(
-                    document.getElementById('title').value
-                );
+                const title = document.getElementById('title').value;
                 const start = document.getElementById('start').value;
                 const end = document.getElementById('end').value;
-                const location = encodeURIComponent(
-                    document.getElementById('location').value
-                );
-                const description = encodeURIComponent(
-                    document.getElementById('description').value
-                );
+                const location = document.getElementById('location').value;
+                const description =
+                    document.getElementById('description').value;
+
+                function formatDate(date) {
+                    return date.replace(/-|:|\.\d+/g, '');
+                }
 
                 const baseUrl = 'https://www.google.com/calendar/render';
                 const event = {
