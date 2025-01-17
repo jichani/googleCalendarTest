@@ -20,12 +20,17 @@
                 margin-bottom: 5px;
                 font-weight: bold;
             }
-            input {
+            input,
+            textarea {
                 width: 100%;
                 padding: 8px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
                 box-sizing: border-box;
+            }
+            textarea {
+                min-height: 100px;
+                resize: vertical;
             }
             button {
                 background-color: #4285f4;
@@ -38,6 +43,8 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
+                width: 100%;
+                justify-content: center;
             }
             button:hover {
                 background-color: #3367d6;
@@ -47,29 +54,26 @@
     <body>
         <div class="form-group">
             <label for="title">행사명</label>
-            <input
-                type="text"
-                id="title"
-                placeholder="행사명을 입력하세요"
-                value="2024년 전문대학 혁신지원사업 성과확산포럼"
-            />
+            <input type="text" id="title" placeholder="행사명을 입력하세요" />
         </div>
         <div class="form-group">
             <label for="start">시작 시간</label>
-            <input type="datetime-local" id="start" value="" />
+            <input type="datetime-local" id="start" />
         </div>
         <div class="form-group">
             <label for="end">종료 시간</label>
-            <input type="datetime-local" id="end" value="" />
+            <input type="datetime-local" id="end" />
         </div>
         <div class="form-group">
             <label for="location">장소</label>
-            <input
-                type="text"
-                id="location"
-                placeholder="장소를 입력하세요"
-                value="대구 수성구 팔현길 212 (호텔인터불고)"
-            />
+            <input type="text" id="location" placeholder="장소를 입력하세요" />
+        </div>
+        <div class="form-group">
+            <label for="description">메모</label>
+            <textarea
+                id="description"
+                placeholder="메모를 입력하세요"
+            ></textarea>
         </div>
         <button onclick="addToCalendar()">
             <svg
@@ -94,10 +98,17 @@
             }
 
             function addToCalendar() {
-                const title = document.getElementById('title').value;
+                const title = encodeURIComponent(
+                    document.getElementById('title').value
+                );
                 const start = document.getElementById('start').value;
                 const end = document.getElementById('end').value;
-                const location = document.getElementById('location').value;
+                const location = encodeURIComponent(
+                    document.getElementById('location').value
+                );
+                const description = encodeURIComponent(
+                    document.getElementById('description').value
+                );
 
                 const baseUrl = 'https://www.google.com/calendar/render';
                 const event = {
@@ -105,6 +116,7 @@
                     text: title,
                     dates: `${formatDate(start)}/${formatDate(end)}`,
                     location: location,
+                    details: description,
                 };
 
                 const params = new URLSearchParams(event).toString();
